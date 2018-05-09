@@ -10,8 +10,10 @@ public class FactoryManager {
 			new MessageManager();
 			new StoryManager();
 			new UserManager();
+			GlobalManager.initDatabase();
 			return true;
 		}catch(Exception e) {
+			e.printStackTrace();
 			GlobalManager.errorCode=SystemErrors.E_NOT_INIT_BI;
 			return false;
 		}

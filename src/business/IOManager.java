@@ -1,13 +1,14 @@
 package business;
 
-public class IOManager extends Singleton {
-	public IOManager() throws Exception {
-		super();
+public class IOManager{
+	private static IOManager instance;
+	public IOManager(){
+		instance =this;
+	}
+	public static IOManager getSingleton() {
+		return instance;
 	}
 	public void print(Object obj) {
 		System.out.println(obj);
-	}
-	public static IOManager getSingleton() {
-		return (IOManager)singleton;
 	}
 }

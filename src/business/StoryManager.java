@@ -1,7 +1,11 @@
 package business;
 
-public class StoryManager extends Singleton {
-	public StoryManager() throws Exception {
-		super();
+public class StoryManager{
+	private static StoryManager instance;
+	public StoryManager(){
+		instance =this;
+	}
+	public static StoryManager getSingleton() {
+		return instance;
 	}
 }

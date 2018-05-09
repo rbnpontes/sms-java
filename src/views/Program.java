@@ -1,13 +1,27 @@
 package views;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import business.FactoryManager;
 import business.GlobalManager;
+import business.IOManager;
+import entities.User;
+import repository.DBModel;
 
 public class Program {
-	public static int main(String[] args) {
+	public static void main(String[] args) {
 		if(!FactoryManager.initBusiness())
-			return GlobalManager.errorCode;
-		return 0;
+			return;
+		List<DBModel> results;
+		try {
+			results = GlobalManager.getDatabase().executeQuery("SELECT * FROM users", User.class);
+			if(results.size() > 0)
+			IOManager.getSingleton().print(((User)results.get(0)).name);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return;
 	}
 
 }

@@ -1,10 +1,11 @@
 package business;
 
-public class UserManager extends Singleton{
-	public UserManager() throws Exception {
-		super();
+public class UserManager{
+	private static UserManager instance;
+	public UserManager(){
+		instance =this;
 	}
 	public static UserManager getSingleton() {
-		return (UserManager)singleton;
+		return instance;
 	}
 }

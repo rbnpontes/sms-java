@@ -1,10 +1,11 @@
 package business;
 
-public class MessageManager extends Singleton{
-	public MessageManager() throws Exception {
-		super();
+public class MessageManager{
+	private static MessageManager instance;
+	public MessageManager(){
+		instance =this;
 	}
 	public static MessageManager getSingleton() {
-		return (MessageManager)singleton;
+		return instance;
 	}
 }

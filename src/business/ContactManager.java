@@ -1,10 +1,11 @@
 package business;
 
-public class ContactManager extends Singleton {
-	public ContactManager() throws Exception {
-		super();
+public class ContactManager {
+	private static ContactManager instance;
+	public ContactManager(){
+		instance =this;
 	}
 	public static ContactManager getSingleton() {
-		return (ContactManager)singleton;
+		return instance;
 	}
 }
