@@ -2,6 +2,10 @@ package business;
 
 import repository.Database;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import repository.DBModel;
 public class GlobalManager {
 	public static int errorCode;
 	private static Database mDatabase;
@@ -18,5 +22,8 @@ public class GlobalManager {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	public static List<DBModel> executeQuery(String query, Class<?> klass) throws SQLException{
+		return getDatabase().executeQuery(query, klass);
 	}
 }
