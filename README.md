@@ -29,4 +29,4 @@ Como clonar um Repositorio ?
 ## Atualizando Codigo ##
   `git pull` ou `git update`
 
-<< Use estes comandos um após o outro e não de uma vez
+< **Use estes comandos um após o outro e não de uma vez**
