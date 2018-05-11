@@ -14,7 +14,7 @@ public class Database {
 	private String mDriverClass="org.postgresql.Driver";
 	private Connection mConnection;
 	private boolean isConnected=false;
-	public int getPort() {return mPort;};
+	public int getPort() {return mPort;}
 	public void setPort(int value) throws Exception {
 		if(isConnected)
 			throw new Exception("Can't change port value, because Database has Connected");

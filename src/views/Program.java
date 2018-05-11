@@ -6,6 +6,7 @@ import java.util.List;
 import business.FactoryManager;
 import business.GlobalManager;
 import business.IOManager;
+import business.UserManager;
 import entities.User;
 import repository.DBModel;
 
@@ -14,6 +15,7 @@ public class Program {
 		if(!FactoryManager.initBusiness())
 			return;
 		List<DBModel> results;
+		System.out.println("");
 		try {
 			results = GlobalManager.getDatabase().executeQuery("SELECT * FROM users", User.class);
 			if(results.size() > 0)
@@ -23,5 +25,4 @@ public class Program {
 		}
 		return;
 	}
-
 }
