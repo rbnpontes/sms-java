@@ -14,6 +14,7 @@ CREATE TABLE messages(
 	id SERIAL PRIMARY KEY,
 	id_src INT REFERENCES users(id) NOT NULL,
 	id_dst INT REFERENCES users(id) NOT NULL,
+	date_creation DATE NOT NULL,
 	data TEXT NOT NULL
 );
 CREATE TABLE stories(
