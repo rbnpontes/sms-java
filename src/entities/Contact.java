@@ -1,6 +1,11 @@
 package entities;
 
-public class Contact {
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import repository.DBModel;
+
+public class Contact extends DBModel {
 	public int id;
 	/// Used for Fetch data in DB
 	public int id_owner;
@@ -8,11 +13,24 @@ public class Contact {
 	public int id_target;
 	private User owner;
 	private User target;
-	
+
 	public User getOwner() {
 		return owner;
 	}
+
 	public User getTarget() {
 		return target;
+	}
+
+	@Override
+	public void fillObject(ResultSet rs) {
+		try {
+			id = rs.getInt("id");
+			id_target = rs.getInt("id_target");
+			id_owner = rs.getInt("id_owner");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
