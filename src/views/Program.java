@@ -9,9 +9,12 @@ import business.IOManager;
 import business.UserManager;
 import entities.User;
 import repository.DBModel;
+import samples.Example;
 
 public class Program {
 	public static void main(String[] args) {
+		/// Caso queira rodar a Classe exemplo, descomente o codigo abaixo
+		/// Example.Run();
 		if(!FactoryManager.initBusiness())
 			return;
 		List<DBModel> results;

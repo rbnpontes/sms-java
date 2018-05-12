@@ -60,6 +60,13 @@ public class Example {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
+		/// Aviso: não é recomendado usar esta função para query do tipo UPDATE, INSERT e DELETE
+		/// para estes casos use o comando "exec"
+		/// Exemplo:
+		try {
+			GlobalManager.getDatabase().exec("UPDATE users");						
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
