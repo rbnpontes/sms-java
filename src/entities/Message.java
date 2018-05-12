@@ -6,9 +6,9 @@ public class Message {
 	public int id_src;
 	/// Destination Id user, used for fetch data in DB
 	public int id_dst;
+	public String data;
 	private User source;
 	private User destination;
-	
 	public User getSource() {
 		return source;
 	}
