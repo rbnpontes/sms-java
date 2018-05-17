@@ -1,10 +1,13 @@
 package network;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 
 public class JServer extends JSocket {
 	private ServerSocket mSocket;
@@ -26,6 +29,12 @@ public class JServer extends JSocket {
 		serverThread = new Thread(()-> this.update());
 		serverThread.start();
 	}
+	private byte[] appendBuffer(byte[] buffer, byte value) {
+		byte[] result = new byte[buffer.length+1];
+		System.arraycopy(buffer, 0,result , 0, buffer.length);
+		result[buffer.length] = value;
+		return buffer;
+	}
 	@Override
 	protected void update() {
 		try {
@@ -37,11 +46,16 @@ public class JServer extends JSocket {
 					client.thread = Thread.currentThread();
 					OnConnect(client);
 					try {
+						int offset = -1;
+						byte buffer[] = new byte[0];
 						while(!client.stop) {
-							DataInputStream in = new DataInputStream(socket.getInputStream());
-							String msg = in.readUTF();
-							System.out.println(msg);
-							OnResponse(client,msg);
+							//BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+							StringBuilder builder = new StringBuilder();
+							int value = 0;
+							/// Why Greater 1, because receive data string is null terminated
+							while((value = socket.getInputStream().read()) >= 1)
+								builder.append((char)value);
+							OnResponse(client,builder.toString());
 						}
 					}catch(IOException e) {
 						e.printStackTrace();

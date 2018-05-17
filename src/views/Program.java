@@ -30,7 +30,7 @@ public class Program {
 				System.out.println(msg);
 			});
 			server.setOnResponse((sender,arg)->{
-				String msg = String.format("Incoming Message: ", arg.message);
+				String msg = String.format("Incoming Message: %s", arg.message);
 				System.out.println(msg);
 			});
 			server.setOnDisconnect((sender,arg)->{

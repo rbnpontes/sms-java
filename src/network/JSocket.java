@@ -7,9 +7,12 @@ public abstract class JSocket {
 	protected int mPort;
 	protected boolean stop=false;
 	protected boolean isConnected=false;
+	protected int bufferSize = 1024;
 	
 	public String getHost() {return mHost;}
 	public int getPort() {return mPort;}
+	public int getBufferSize() {return bufferSize;}
+	public void setBufferSize(int value) {bufferSize = value;}
 	public void setHost(String address) throws Exception {
 		if(isConnected)
 			throw new Exception("Could not change host, because socket has Initialized");
