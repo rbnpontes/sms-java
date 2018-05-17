@@ -20,8 +20,8 @@ public abstract class JSocket {
 			throw new Exception("Could not change port, because socket has Initialized");
 		this.mPort = port;
 	}
-	protected abstract void Update();
-	protected abstract void OnConnect(Socket socket);
-	protected abstract void OnDisconnect(Socket socket);
-	protected abstract void OnResponse(String message);
+	protected abstract void update();
+	protected abstract void OnConnect(JClient socket);
+	protected abstract void OnDisconnect(JClient socket);
+	protected abstract void OnResponse(JClient socket,String message);
 }

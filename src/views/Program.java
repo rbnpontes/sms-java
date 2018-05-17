@@ -1,5 +1,7 @@
 package views;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import business.GlobalManager;
 import business.IOManager;
 import business.UserManager;
 import entities.User;
+import network.JServer;
 import repository.DBModel;
 import samples.Example;
 
@@ -17,13 +20,24 @@ public class Program {
 		/// Example.Run();
 		if(!FactoryManager.initBusiness())
 			return;
-		List<DBModel> results;
-		System.out.println("");
+		JServer server = new JServer();
 		try {
-			results = GlobalManager.getDatabase().executeQuery("SELECT * FROM users", User.class);
-			if(results.size() > 0)
-			IOManager.getSingleton().print(((User)results.get(0)).name);
-		} catch (SQLException e) {
+			server.setPort(3425);
+			server.connect();
+			server.setOnConnected((sender,arg)->{;
+				Socket socket = arg.socket.handle;
+				String msg = String.format("%s is Connected", socket.getLocalAddress().toString());
+				System.out.println(msg);
+			});
+			server.setOnResponse((sender,arg)->{
+				String msg = String.format("Incoming Message: ", arg.message);
+				System.out.println(msg);
+			});
+			server.setOnDisconnect((sender,arg)->{
+				String msg = String.format("%s has Disconnected", arg.socket.handle.getLocalAddress().toString());
+				System.out.println(msg);
+			});
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		return;

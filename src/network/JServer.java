@@ -1,9 +1,7 @@
 package network;
 
-import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -11,30 +9,43 @@ import java.net.UnknownHostException;
 public class JServer extends JSocket {
 	private ServerSocket mSocket;
 	private Thread serverThread;
+	private JSocketCallback callOnConnected = null;
+	private JSocketCallback callOnDisconnect = null;
+	private JSocketCallback callOnResponse = null;
+	public void setOnConnected(JSocketCallback callback) {
+		callOnConnected = callback;
+	}
+	public void setOnDisconnect(JSocketCallback callback) {
+		callOnDisconnect = callback;
+	}
+	public void setOnResponse(JSocketCallback callback) {
+		callOnResponse= callback;
+	}
 	public void connect() throws UnknownHostException, IOException {
 		this.mSocket = new ServerSocket(this.mPort);
-		serverThread = new Thread(()-> this.Update());
+		serverThread = new Thread(()-> this.update());
 		serverThread.start();
 	}
 	@Override
-	protected void Update() {
+	protected void update() {
 		try {
 			while(this.isConnected || !this.stop) {
 				Socket socket = mSocket.accept();
-				OnConnect(socket);
 				Thread thread = new Thread(()-> {
 					JClient client = new JClient();
-					client.socket = socket;
+					client.handle = socket;
 					client.thread = Thread.currentThread();
-					client.OnConnect();
+					OnConnect(client);
 					try {
 						while(!client.stop) {
-							PrintWriter printWriter = new PrintWriter(socket.getOutputStream(),true);
-							BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));						
+							DataInputStream in = new DataInputStream(socket.getInputStream());
+							String msg = in.readUTF();
+							System.out.println(msg);
+							OnResponse(client,msg);
 						}
 					}catch(IOException e) {
 						e.printStackTrace();
-						client.OnDisconnect();
+						OnDisconnect(client);
 					}
 				});
 				thread.start();
@@ -44,20 +55,34 @@ public class JServer extends JSocket {
 		}
 	}
 	@Override
-	protected void OnConnect(Socket socket) {
+	protected void OnConnect(JClient socket) {
 		// TODO Auto-generated method stub
-		
+		if(callOnConnected != null)
+		{
+			JSocketArgs args = new JSocketArgs();
+			args.socket = socket;
+			callOnConnected.run(this, args);
+		}
+	}
+	@Override
+	protected void OnDisconnect(JClient socket) {
+		// TODO Auto-generated method stub
+		if(callOnDisconnect != null)
+		{
+			JSocketArgs args = new JSocketArgs();
+			args.socket = socket;
+			callOnDisconnect.run(this, args);
+		}
 	}
 
 	@Override
-	protected void OnDisconnect(Socket socket) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void OnResponse(String message) {
-		// TODO Auto-generated method stub
-		
+	protected void OnResponse(JClient socket,String message) {
+		if(callOnResponse != null)
+		{
+			JSocketArgs args = new JSocketArgs();
+			args.socket = socket;
+			args.message = message;
+			callOnResponse.run(this, args);
+		}
 	}
 }
