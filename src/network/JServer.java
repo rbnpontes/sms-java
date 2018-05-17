@@ -53,8 +53,27 @@ public class JServer extends JSocket {
 							StringBuilder builder = new StringBuilder();
 							int value = 0;
 							/// Why Greater 1, because receive data string is null terminated
-							while((value = socket.getInputStream().read()) >= 1)
+							boolean stillConnected = false;
+							boolean hasPing = false;
+							/// if connection is still connected, socket will wait Client response
+							/// if not, the code will bypass this loop
+							while((value = socket.getInputStream().read()) > 0)
+							{
+								/// if value is new line and stored values is greater than zero, its a ping request
+								stillConnected = true;									
+								if((char)value == '\n' && builder.length() == 0)
+								{
+									hasPing = true;
+									break;
+								}
 								builder.append((char)value);
+							}
+							/// if ping, ignore loop
+							if(hasPing)
+								continue;
+							/// Sending ping request
+							if(!stillConnected) 
+								socket.getOutputStream().write((byte)'\n');
 							OnResponse(client,builder.toString());
 						}
 					}catch(IOException e) {
