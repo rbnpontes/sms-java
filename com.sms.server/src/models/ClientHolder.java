@@ -1,8 +1,8 @@
 package models;
 import com.sms.entities.User;
-import com.sms.network.JClient;
+import com.sms.network.JObject;
 
 public class ClientHolder {
 	public User user;
-	public JClient socket;
+	public JObject socket;
 }

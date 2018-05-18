@@ -7,7 +7,7 @@ import com.sms.business.UserManager;
 import com.sms.entities.Response;
 import com.sms.entities.ResponseClient;
 import com.sms.entities.User;
-import com.sms.network.JClient;
+import com.sms.network.JObject;
 import com.sms.network.JServer;
 
 import models.ClientCodes;
@@ -30,7 +30,7 @@ public final class ApplicationDispatcher {
 	/// pelos clients, para cada codigo irá redirecionar para uma regra de negocio.
 	/// a regra de negocio deve retornar um objeto do tipo Response para que seja
 	/// enviado ao client como Handshake.
-	public static void HandleResponse(String jsonResponse, JClient client, JServer server) {
+	public static void HandleResponse(String jsonResponse, JObject client, JServer server) {
 		ClientHolder holder = ClientManager.getSingleton().getClient(client);
 		Gson gson = new Gson();
 		ResponseClient response = null;

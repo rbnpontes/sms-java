@@ -1,5 +1,6 @@
 package com.sms.network;
 
+import java.io.IOException;
 import java.net.Socket;
 
 public abstract class JSocket {
@@ -8,7 +9,18 @@ public abstract class JSocket {
 	protected boolean stop=false;
 	protected boolean isConnected=false;
 	protected int bufferSize = 1024;
-	
+	protected JSocketCallback callOnConnected = null;
+	protected JSocketCallback callOnDisconnect = null;
+	protected JSocketCallback callOnResponse = null;
+	public void setOnConnected(JSocketCallback callback) {
+		callOnConnected = callback;
+	}
+	public void setOnDisconnect(JSocketCallback callback) {
+		callOnDisconnect = callback;
+	}
+	public void setOnResponse(JSocketCallback callback) {
+		callOnResponse= callback;
+	}
 	public String getHost() {return mHost;}
 	public int getPort() {return mPort;}
 	public int getBufferSize() {return bufferSize;}
@@ -24,8 +36,8 @@ public abstract class JSocket {
 		this.mPort = port;
 	}
 	public abstract void send(String str);
-	protected abstract void update();
-	protected abstract void OnConnect(JClient socket);
-	protected abstract void OnDisconnect(JClient socket);
-	protected abstract void OnResponse(JClient socket,String message);
+	protected abstract void update() throws IOException ;
+	protected abstract void OnConnect(JObject socket);
+	protected abstract void OnDisconnect(JObject socket);
+	protected abstract void OnResponse(JObject socket,String message);
 }

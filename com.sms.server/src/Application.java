@@ -1,7 +1,10 @@
+import com.sms.business.FactoryManager;
 import com.sms.network.*;
 public class Application {
 	protected JServer server;
 	public void initialize() {
+		/// Init FactoryManager
+		FactoryManager.initBusiness();
 		server = new JServer();
 		server.setOnConnected((sender,args)->{OnConnected(sender,args);});
 		server.setOnDisconnect((sender,args)->{OnConnected(sender,args);});
