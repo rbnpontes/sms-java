@@ -1,3 +1,4 @@
+package com.sms.server;
 import java.lang.reflect.Type;
 
 import com.google.gson.*;
@@ -9,9 +10,8 @@ import com.sms.entities.ResponseClient;
 import com.sms.entities.User;
 import com.sms.network.JObject;
 import com.sms.network.JServer;
-
-import models.ClientCodes;
-import models.ClientHolder;
+import com.sms.server.models.ClientCodes;
+import com.sms.server.models.ClientHolder;
 
 public final class ApplicationDispatcher {
 	private static Object loginUser(String response,ClientHolder client) {

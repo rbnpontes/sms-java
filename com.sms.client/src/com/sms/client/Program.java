@@ -1,10 +1,10 @@
 package com.sms.client;
-
 public class Program {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("Hello World");
+		Application app = new Application();
+		app.initialize();
+		while(!app.hasStopped());
 	}
 
 }

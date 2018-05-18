@@ -1,3 +1,4 @@
+package com.sms.server;
 import com.sms.business.FactoryManager;
 import com.sms.network.*;
 public class Application {

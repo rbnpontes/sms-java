@@ -1,7 +1,7 @@
+package com.sms.server;
 import com.sms.entities.User;
 import com.sms.network.JObject;
-
-import models.ClientHolder;
+import com.sms.server.models.ClientHolder;
 
 import java.util.ArrayList;
 import java.util.List;

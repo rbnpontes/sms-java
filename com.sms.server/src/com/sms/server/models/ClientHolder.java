@@ -1,4 +1,4 @@
-package models;
+package com.sms.server.models;
 import com.sms.entities.User;
 import com.sms.network.JObject;
 

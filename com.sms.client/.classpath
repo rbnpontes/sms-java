@@ -4,5 +4,6 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/com.sms.network"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/com.sms.entities"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.sms.common"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

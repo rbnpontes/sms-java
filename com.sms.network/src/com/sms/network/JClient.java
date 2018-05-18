@@ -11,12 +11,11 @@ public class JClient extends JSocket {
 	protected boolean mStop=false;
 	protected JObject mJobject = new JObject();
 	public void stop() {mStop = true;}
-	public void connect() {
-		try {
-			mSocket = new Socket(this.mHost,this.mPort);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+	public boolean hasStopped() {
+		return mStop;
+	}
+	public void connect() throws UnknownHostException, IOException {
+		mSocket = new Socket(this.mHost,this.mPort);
 		mThread = new Thread(()->{
 			mJobject.handle = mSocket;
 			mJobject.thread = mThread;
@@ -28,6 +27,7 @@ public class JClient extends JSocket {
 			}catch(IOException e) {
 				e.printStackTrace();
 				OnDisconnect(mJobject);
+				stop();
 			}
 		});
 		mThread.start();
@@ -67,20 +67,20 @@ public class JClient extends JSocket {
 
 	@Override
 	protected void OnConnect(JObject socket) {
-		// TODO Auto-generated method stub
-		
+		if(this.callOnConnected != null)
+			this.callOnConnected.run(this, null);
 	}
 
 	@Override
 	protected void OnDisconnect(JObject socket) {
-		// TODO Auto-generated method stub
-		
+		if(this.callOnDisconnect != null)
+			this.callOnDisconnect.run(this, null);
 	}
 
 	@Override
 	protected void OnResponse(JObject socket, String message) {
-		// TODO Auto-generated method stub
-		
+		if(this.callOnResponse != null)
+			this.callOnResponse.run(this, null);
 	}
 
 }

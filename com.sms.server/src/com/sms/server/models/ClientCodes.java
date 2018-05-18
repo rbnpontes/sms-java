@@ -1,4 +1,4 @@
-package models;
+package com.sms.server.models;
 public class ClientCodes {
 	public final static int LOGIN=1;
 	public final static int REGISTER=2;
