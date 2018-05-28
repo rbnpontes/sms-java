@@ -11,16 +11,8 @@ public class Contact implements IDBModel {
 	public int id_owner;
 	/// Used for Fetch data in DB
 	public int id_target;
-	private User owner;
-	private User target;
-
-	public User getOwner() {
-		return owner;
-	}
-
-	public User getTarget() {
-		return target;
-	}
+	public User owner;
+	public User target;
 
 	@Override
 	public void fillObject(ResultSet rs) {

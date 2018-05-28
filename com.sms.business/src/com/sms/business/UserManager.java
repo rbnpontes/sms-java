@@ -28,6 +28,16 @@ public class UserManager{
 		/// Não implementado
 		return result;
 	}
+	public boolean isExist(int id) {
+		try {
+			return getUserById(id) != null;
+		}catch(SQLException e) {
+			return false;
+		}
+	}
+	public void addUser(User user) {
+	
+	}
 	public User[] getUsers() throws SQLException{
 		/// Executa a Query onde ira trazer todos os Usuarios registrados no Banco
 		List<IDBModel> results = GlobalManager.getDatabase().executeQuery("SELECT * FROM users", User.class);
@@ -44,6 +54,20 @@ public class UserManager{
 		if(results.size() == 0)
 			return null;
 		return (User)results.get(0);
+	}
+	public User getUserbyUsername(String username) {
+		List<IDBModel> results;
+		try {
+			results = GlobalManager.getDatabase().executeQuery("SELECT * FROM users WHERE username='"+username+"'", User.class);
+			/// Verifica-se a quantidade de resultados retornado do banco é maior que zero
+			if(results.size() == 0)
+				return null;
+			return (User)results.get(0);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	public static UserManager getSingleton() {
 		return instance;

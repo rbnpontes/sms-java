@@ -45,4 +45,28 @@ public class ContactManager {
 			return null;
 		return (Contact)results.get(0);
 	}
+	public Contact[] getUserContacts(User user) {
+		try {
+			List<IDBModel> results = GlobalManager.getDatabase().executeQuery(
+					"SELECT * FROM contact\r\n" + 
+					"INNER JOIN users ON users.id = contact.id_target\r\n" + 
+					"WHERE contact.id_owner="+user.id, User.class);
+			Contact[] users = new Contact[results.size()];
+			/// Fill Models
+			for(int i=0;i<users.length;i++)
+			{
+				User tempUser = (User)results.get(i);
+				users[i] = new Contact();
+				users[i].id_owner = user.id;
+				users[i].id_target = tempUser.id;
+				users[i].owner = user;
+				users[i].target = tempUser;
+			}
+			return users;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new Contact[0];
+	}
 }

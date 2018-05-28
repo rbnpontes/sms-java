@@ -90,10 +90,22 @@ public class Database {
 		if(mConnection != null)
 			mConnection.close();
 	}
-
+	public PreparedStatement prepareQuery(String query) throws SQLException {
+		mConnection.setAutoCommit(false);
+		return mConnection.prepareStatement(query);
+	}
 	public boolean exec(String query) throws SQLException {
 		Statement st = mConnection.createStatement();
 		return st.execute(query);
+	}
+	public boolean exec(PreparedStatement statement){
+		try {
+			statement.execute();
+			mConnection.commit();
+			return true;
+		}catch(SQLException e) {
+			return false;
+		}	
 	}
 	public List<IDBModel> executeQuery(String query, Class<?> klass) throws SQLException {
 		List<IDBModel> models = new ArrayList<IDBModel>();

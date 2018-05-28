@@ -9,6 +9,7 @@ public class User implements IDBModel{
 	public int id;
 	public String name;
 	public String username;
+	public String password;
 	public String ipAddress;
 	@Override
 	public void fillObject(ResultSet rs) {
@@ -16,6 +17,7 @@ public class User implements IDBModel{
 			id = rs.getInt("id");
 			name = rs.getString("name");
 			username = rs.getString("username");
+			password = rs.getString("password");
 			ipAddress = rs.getString("ip_address");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

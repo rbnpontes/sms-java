@@ -34,10 +34,24 @@ public class Message implements IDBModel{
 	public void fillObject(ResultSet rs) {
 		/// Map this Object
 		try {
-			id_src = rs.getInt("id_src");
-			id_dst = rs.getInt("id_dst");
-			data = rs.getString("data");
+			id = rs.getInt("id");
+			data = rs.getString("msg");
 			dateSended = rs.getDate("date_sended");
+			
+			User userSrc = new User();
+			userSrc.id = rs.getInt("src_id");
+			userSrc.name = rs.getString("src_name");
+			userSrc.username = rs.getString("src_username");
+			
+			User userDst = new User();
+			userDst.id = rs.getInt("dst_id");
+			userDst.name = rs.getString("dst_name");
+			userDst.username = rs.getString("dst_username");
+			
+			id_src = userSrc.id;
+			id_dst = userDst.id;
+			source = userSrc;
+			destination = userDst;
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

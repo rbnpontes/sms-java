@@ -4,7 +4,7 @@ public class Program {
 	public static void main(String[] args) {
 		Application app = new Application();
 		app.initialize();
-		while(!app.hasStopped());
+		app.run(); /// Run Program 
 	}
 
 }

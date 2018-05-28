@@ -15,7 +15,7 @@ public class GlobalManager {
 	public static boolean initDatabase() {
 		try {
 			mDatabase = new Database();
-			mDatabase.setDatabase("testdb");
+			mDatabase.setDatabase("sms");
 			mDatabase.connect();
 			return true;
 		}catch(Exception e) {
