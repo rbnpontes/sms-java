@@ -21,6 +21,30 @@ public class MessageManager{
 			GlobalManager.getDatabase().exec(statement);
 		}catch(SQLException e) {}
 	}
+	public Message getLastMessage(User user) {
+		String query = "SELECT\r\n"+
+				"messages.id AS id,\r\n" + 
+				"messages.msg AS msg,\r\n" + 
+				"messages.date_sended AS date_sended,\r\n" + 
+				"src.id AS src_id,\r\n" + 
+				"src.name AS src_name,\r\n" + 
+				"src.username AS src_username,\r\n" + 
+				"dst.id AS dst_id,\r\n" + 
+				"dst.name AS dst_name,\r\n" + 
+				"dst.username AS dst_username\r\n" + 
+				"FROM messages\r\n" + 
+				"JOIN users AS src ON src.id = messages.id_src\r\n" + 
+				"JOIN users AS dst ON dst.id = messages.id_dst\r\n" + 
+				"WHERE messages.id_dst = "+user.id+"\r\n" + 
+				"ORDER BY date_sended DESC\r\n" + 
+				"LIMIT 1";
+		try {
+			List<IDBModel> results = GlobalManager.getDatabase().executeQuery(query, Message.class);
+			if(results.size() > 0)
+				return (Message)results.get(0);
+		}catch(SQLException e) {}
+		return null;
+	}
 	public Message[] getConversation(User src, User dst) {
 		String query = "SELECT\r\n" + 
 				"messages.id AS id,\r\n" + 

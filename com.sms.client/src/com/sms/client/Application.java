@@ -13,5 +13,6 @@ public class Application {
 	}
 	public void run() {
 		while(mSystem.entryPoint());
+		Debug.log("Fim de Execução");
 	}
 }

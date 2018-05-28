@@ -1,5 +1,6 @@
 package com.sms.client;
 
+import com.sms.business.MessageManager;
 import com.sms.common.Console;
 import com.sms.common.Debug;
 import com.sms.entities.User;
@@ -51,16 +52,28 @@ public class SystemManager {
 		user.name = getLabel("Nome");
 		user.username = getLabel("Usuário");
 		user.password = getLabel("Senha");
-		if(RouterManager.tryRegister(user, mApp))
-		{
-			Console.writeLine("Cadastro feito com Sucesso");
-			Console.pause();
-			ProfileEngine engine = new ProfileEngine(user);
-			engine.run();
-		}
-		else{
-			Console.readKey();			
-			Console.writeLine("Houve um Error ao registrar o usuário, tente novamente mais tarde!");
+		int code = RouterManager.tryRegister(user, mApp);
+		switch(code) {
+			case SystemCodes.SIGN_IN_INVALID:
+			{
+				Console.writeLine("Houve um Error ao registrar o usuário, verifique se os campos foram preenchidos corretamento e a senha não pode menos que 6 caracteres!");
+				Console.readKey();			
+			}
+				break;
+			case SystemCodes.SIGN_IN_EXIST:
+			{
+				Console.writeLine("Não foi possivel registrar um novo usuário, porque este usuário já está cadastrado!");
+				Console.readKey();
+			}
+				break;
+			case SystemCodes.SIGN_OK:
+			{
+				Console.writeLine("Cadastro feito com Sucesso");
+				Console.pause();
+				ProfileEngine engine = new ProfileEngine(user);
+				engine.run();
+			}
+				break;
 		}
 	}
 	public boolean entryPoint() {

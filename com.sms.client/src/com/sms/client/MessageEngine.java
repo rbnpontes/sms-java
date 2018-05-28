@@ -56,6 +56,8 @@ public class MessageEngine extends View{
 			drawMessages();
 			String raw = labelText("Digite Algo");
 			int code = interpretCommand(raw);
+			if(raw.length() == 0)
+				continue;
 			switch(code) {
 				case SystemCodes.MSG_CHAT:
 				{
@@ -67,7 +69,6 @@ public class MessageEngine extends View{
 				{
 					Console.clear();
 					refreshMessages();
-					Console.pause();
 				}
 					break;
 				case SystemCodes.MSG_BACK:

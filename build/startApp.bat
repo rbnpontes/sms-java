@@ -1,0 +1,1 @@
+java -jar com.sms.app.jar

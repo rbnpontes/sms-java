@@ -11,18 +11,19 @@ public class RouterManager {
 			return false;
 		if(user.password.length() < 6)
 			return false;
-		User tempUser = UserManager.getSingleton().getUserbyUsername(user.username);
+		User tempUser = UserManager.getSingleton().retrieveUserByUser(user);
 		if(tempUser == null)
 			return false;
-		return tempUser.username.equalsIgnoreCase(user.username) 
-				&& tempUser.password.equalsIgnoreCase(user.password);
-	}
-	public static boolean tryRegister(User user,Application app) {
-		if(user.name.length() == 0 && user.username.length() == 0 && user.password.length() == 0)
-			return false;
-		if(user.password.length() < 6)
-			return false;
-		UserManager.getSingleton().addUser(user);
 		return true;
+	}
+	public static int tryRegister(User user,Application app) {
+		if(user.name.length() == 0 && user.username.length() == 0 && user.password.length() == 0)
+			return SystemCodes.SIGN_IN_INVALID;
+		if(user.password.length() < 6)
+			return SystemCodes.SIGN_IN_INVALID;
+		if(UserManager.getSingleton().isExist(user.username))
+			return SystemCodes.SIGN_IN_EXIST;
+		UserManager.getSingleton().addUser(user);
+		return SystemCodes.SIGN_OK;
 	}
 }

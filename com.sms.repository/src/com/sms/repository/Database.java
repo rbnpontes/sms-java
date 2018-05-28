@@ -124,4 +124,21 @@ public class Database {
 		}
 		return models;
 	}
+	public List<IDBModel> executeQuery(PreparedStatement statement, Class<?> klass) throws SQLException{
+List<IDBModel> models = new ArrayList<IDBModel>();
+		
+		//Statement st = mConnection.createStatement();
+		ResultSet rs = statement.executeQuery();
+		while(rs.next()) {
+			try {
+				IDBModel obj = (IDBModel)klass.newInstance();
+				obj.fillObject(rs);
+				models.add(obj);
+			} catch (InstantiationException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return models;
+	}
 }

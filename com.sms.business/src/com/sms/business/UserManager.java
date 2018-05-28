@@ -1,5 +1,6 @@
 package com.sms.business;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -35,8 +36,49 @@ public class UserManager{
 			return false;
 		}
 	}
+	public boolean isExist(String username) {
+		User user = getUserbyUsername(username);
+		return user != null;
+	}
+	public void updateUserName(String name,int userid) {
+		String query = "UPDATE users SET name=? WHERE id=?";
+		try {
+			PreparedStatement statement = GlobalManager.getDatabase().prepareQuery(query);
+			statement.setString(1, name);
+			statement.setInt(2, userid);
+			GlobalManager.getDatabase().exec(statement);
+		}catch(SQLException e) {
+		}
+	}
+	public User retrieveUserByUser(User user) {
+		String query = "SELECT * FROM users\r\n" + 
+				"WHERE\r\n" + 
+				"username = ? AND password = MD5(?)";
+		try {
+			PreparedStatement statement = GlobalManager.getDatabase().prepareQuery(query);
+			statement.setString(1, user.username);
+			statement.setString(2, user.password);
+
+			List<IDBModel> results = GlobalManager.getDatabase().executeQuery(statement, User.class);
+			/// Verifica-se a quantidade de resultados retornado do banco é maior que zero
+			if(results.size() > 0)
+				return (User)results.get(0);
+		}catch(SQLException e)
+		{
+		}
+		return null;
+	}
 	public void addUser(User user) {
-	
+		String query = "INSERT INTO users (name,username,password) VALUES (?,?,MD5(?))";
+		try {
+			PreparedStatement statement = GlobalManager.getDatabase().prepareQuery(query);
+			statement.setString(1, user.name);
+			statement.setString(2, user.username);
+			statement.setString(3, user.password);
+			GlobalManager.getDatabase().exec(statement);
+		}catch(SQLException e)
+		{
+		}
 	}
 	public User[] getUsers() throws SQLException{
 		/// Executa a Query onde ira trazer todos os Usuarios registrados no Banco
