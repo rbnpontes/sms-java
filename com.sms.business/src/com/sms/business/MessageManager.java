@@ -6,12 +6,15 @@ import java.util.List;
 
 import com.sms.entities.*;
 import com.sms.repository.IDBModel;
+///Gerenciar Messagens
 public class MessageManager{
 	private static MessageManager instance;
 	public MessageManager(){
 		instance =this;
 	}
+	///Adiciona Novas Messagens
 	public void addMessage(Message msg) {
+		///Executa a query de adcionar novas menssagens
 		String query = "INSERT INTO messages (id_src,id_dst,msg) VALUES (?,?,?)";
 		try {
 			PreparedStatement statement = GlobalManager.getDatabase().prepareQuery(query);
@@ -20,8 +23,9 @@ public class MessageManager{
 			statement.setString(3, msg.data);
 			GlobalManager.getDatabase().exec(statement);
 		}catch(SQLException e) {}
-	}
+	}/// Busca a ultima messagem que foi enviada pra um usuário
 	public Message getLastMessage(User user) {
+		///Executa a Query de Busca da ultama menssagem que foi enviada pra um usuário
 		String query = "SELECT\r\n"+
 				"messages.id AS id,\r\n" + 
 				"messages.msg AS msg,\r\n" + 
@@ -45,7 +49,9 @@ public class MessageManager{
 		}catch(SQLException e) {}
 		return null;
 	}
+	///Busca Lista de conversas que foi feita entre dois usuários
 	public Message[] getConversation(User src, User dst) {
+		///Executa a query que Busca a lista de conversar que foi feita entre dois usuários
 		String query = "SELECT\r\n" + 
 				"messages.id AS id,\r\n" + 
 				"messages.msg AS msg,\r\n" + 

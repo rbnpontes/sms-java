@@ -8,12 +8,15 @@ import com.sms.entities.Story;
 import com.sms.entities.User;
 import com.sms.repository.IDBModel;
 
+///Gerenciamento das Stories
 public class StoryManager{
 	private static StoryManager instance;
 	public StoryManager(){
 		instance =this;
 	}
+	/// Adiciona Story
 	public void addStory(Story story) {
+		///Executa a Query que adiciona Story
 		String query = "INSERT INTO stories(id_owner,message) VALUES (?,?)";
 		try {
 			PreparedStatement statement = GlobalManager.getDatabase().prepareQuery(query);
@@ -22,7 +25,9 @@ public class StoryManager{
 			GlobalManager.getDatabase().exec(statement);
 		}catch(SQLException e) {}
 	}
+	/// Busca os Stories Recentes
 	public Story[] getRecentStories() {
+		///Executa a query que busca os stories recentes
 		String query = "SELECT \r\n" + 
 				"stories.id AS id,\r\n" + 
 				"stories.message AS message,\r\n" + 
