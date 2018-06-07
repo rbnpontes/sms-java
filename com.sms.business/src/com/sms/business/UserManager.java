@@ -7,7 +7,7 @@ import java.util.List;
 import com.sms.entities.Response;
 import com.sms.entities.User;
 import com.sms.repository.IDBModel;
-
+/// Gerenciamento de Usuário
 public class UserManager{
 	private static UserManager instance;
 	public UserManager(){
@@ -40,7 +40,9 @@ public class UserManager{
 		User user = getUserbyUsername(username);
 		return user != null;
 	}
+	/// Atualiza o Nome do Usuário
 	public void updateUserName(String name,int userid) {
+		/// Roda a Query que atualiza o nome do Usuário
 		String query = "UPDATE users SET name=? WHERE id=?";
 		try {
 			PreparedStatement statement = GlobalManager.getDatabase().prepareQuery(query);
@@ -50,7 +52,9 @@ public class UserManager{
 		}catch(SQLException e) {
 		}
 	}
+	///Procurar usuários usando seu username e senha
 	public User retrieveUserByUser(User user) {
+		/// Roda a Query pra procurar usuários usando seu username e senha
 		String query = "SELECT * FROM users\r\n" + 
 				"WHERE\r\n" + 
 				"username = ? AND password = MD5(?)";
@@ -68,7 +72,9 @@ public class UserManager{
 		}
 		return null;
 	}
+	///Adiciona um Novo usuários
 	public void addUser(User user) {
+		///Roda a Query que adiciona um novo usuário
 		String query = "INSERT INTO users (name,username,password) VALUES (?,?,MD5(?))";
 		try {
 			PreparedStatement statement = GlobalManager.getDatabase().prepareQuery(query);
@@ -80,6 +86,7 @@ public class UserManager{
 		{
 		}
 	}
+	/// Busca todos os Usuários cadastrados
 	public User[] getUsers() throws SQLException{
 		/// Executa a Query onde ira trazer todos os Usuarios registrados no Banco
 		List<IDBModel> results = GlobalManager.getDatabase().executeQuery("SELECT * FROM users", User.class);
@@ -90,6 +97,7 @@ public class UserManager{
 			users[i] = (User)results.get(i); /// Converte de DBModel para User
 		return users;
 	}
+	/// Busca o Usuário através do id
 	public User getUserById(int id) throws SQLException {
 		List<IDBModel> results = GlobalManager.getDatabase().executeQuery("SELECT * FROM users WHERE id="+id, User.class);
 		/// Verifica-se a quantidade de resultados retornado do banco é maior que zero
@@ -97,6 +105,7 @@ public class UserManager{
 			return null;
 		return (User)results.get(0);
 	}
+	///Busca o Usuário através do username
 	public User getUserbyUsername(String username) {
 		List<IDBModel> results;
 		try {

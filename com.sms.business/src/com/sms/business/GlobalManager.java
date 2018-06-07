@@ -1,17 +1,17 @@
 package com.sms.business;
 
 import com.sms.repository.Database;
-
 import java.sql.SQLException;
 import java.util.List;
-
 import com.sms.repository.IDBModel;
+/// CLass com função global
 public class GlobalManager {
 	public static int errorCode;
 	private static Database mDatabase;
 	public static Database getDatabase() {
 		return mDatabase;
 	}
+	///Faz a inicialização do banco
 	public static boolean initDatabase() {
 		try {
 			mDatabase = new Database();
