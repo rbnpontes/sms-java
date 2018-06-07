@@ -3,6 +3,9 @@ package com.sms.common;
 import java.io.IOException;
 import java.util.Scanner;
 
+/// Objeto de Uso Comun
+/// Utilizado para Facilitar a comunição entre o console e a aplicação
+/// Este estilo de objeto foi inspirado na implementação padrão do C# .NET
 public class Console {
 	public static void write(String str) {
 		System.out.print(str);

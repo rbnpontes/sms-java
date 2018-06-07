@@ -1,5 +1,6 @@
 package com.sms.common;
 
+/// Class comun para Debug, usado muitas vezes para imprimir uma informação no console
 public class Debug {
     private static final int DEBUG=0;
     private static final int LOG=1;
