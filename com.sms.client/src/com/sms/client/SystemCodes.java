@@ -1,5 +1,5 @@
 package com.sms.client;
-
+/// Codigos usado no Sistema
 public class SystemCodes {
 	public static final int MAIN_SIGN_IN=0;
 	public static final int MAIN_SIGN_UP=1;

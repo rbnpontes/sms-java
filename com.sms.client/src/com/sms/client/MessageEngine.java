@@ -5,20 +5,23 @@ import com.sms.common.Console;
 import com.sms.common.Debug;
 import com.sms.entities.Message;
 import com.sms.entities.User;
-
+/// View responsavel para Tratar as Conversar entre um Contato e Outro
 public class MessageEngine extends View{
-	private User mLogged;
-	private User mTarget;
-	private Message[] mMessages;
+	private User mLogged; /// Usuário Logado
+	private User mTarget; /// Usuário na qual iniciou ou retornou a conversa
+	private Message[] mMessages; /// Mensagens Arquivadas
 	public MessageEngine(User logged, User target) {
 		mLogged = logged;
 		mTarget = target;
 		refreshMessages();
 	}
+	/// Função utilizada para Recarregar as Mensagens
 	private void refreshMessages() {
 		Debug.log("Carregando Mensagens!!!");
+		/// Carrega as Mensagens e deixa elas em cache
 		mMessages = MessageManager.getSingleton().getConversation(mLogged, mTarget);
 	}
+	/// Função Usada para Desenhar a View de Mensagens
 	private void drawMessages() {
 		Console.clear();
 		Console.writeLine("###################################");
@@ -35,6 +38,8 @@ public class MessageEngine extends View{
 		Console.writeLine("/e - Sair | /r - Recarregar Mensagens");
 		Console.writeLine("----------------------------------------");
 	}
+	/// Faz a interpretação do comando, caso o usuário deseje sair da View ou recarregar as mensagens
+	/// retorna um codigo de saída para gerenciamento terceiro
 	private int interpretCommand(String cmd) {
 		if(cmd.equals("/e"))
 			return SystemCodes.MSG_BACK;
@@ -43,6 +48,7 @@ public class MessageEngine extends View{
 		else
 			return SystemCodes.MSG_CHAT;
 	}
+	/// Faz o envio da mensagem para o usuário
 	private void pushMessage(String msg) {
 		Message message = new Message();
 		message.id_src = mLogged.id;
@@ -50,10 +56,11 @@ public class MessageEngine extends View{
 		message.data = msg;
 		MessageManager.getSingleton().addMessage(message);
 	}
+	/// Ponto de Entrada da View
 	public void run() {
 		boolean stop = false;
 		while(!stop) {
-			drawMessages();
+			drawMessages(); // Desenha a View
 			String raw = labelText("Digite Algo");
 			int code = interpretCommand(raw);
 			if(raw.length() == 0)

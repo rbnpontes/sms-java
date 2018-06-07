@@ -5,18 +5,20 @@ import com.sms.common.Console;
 import com.sms.common.Debug;
 import com.sms.entities.Story;
 import com.sms.entities.User;
-
+/// View responsavel por gerenciar o sistema de Story
 public class StoryEngine extends View {
-	private User mLogged;
-	private Story[] mStories;
+	private User mLogged; /// Usuário Logado
+	private Story[] mStories; /// Cache dos Stories
 	public StoryEngine(User logged) {
 		mLogged= logged;
 		refreshStories();
 	}
 	private void refreshStories() {
 		Debug.log("Carregando Stories...");
+		/// Faz a busca das Storys recentes no dia
 		mStories = StoryManager.getSingleton().getRecentStories();
 	}
+	/// Desenha a View de Story
 	private void drawStory() {
 		Console.clear();
 		Console.writeLine("#######################");
@@ -27,22 +29,24 @@ public class StoryEngine extends View {
 		Console.writeLine("1 - Postar Algo | 2 - Recarregar | 3 - Voltar");
 		Console.writeLine("Opção: ");
 	}
+	/// Faz a preparação para a criação de uma nova Story
 	private void makeStory() {
 		Story story = new Story();
 		story.id_owner = mLogged.id;
 		Console.clear();
 		Console.writeLine("####################");
 		story.message = labelText("Oque você esta pensando ?\n");
-		StoryManager.getSingleton().addStory(story);
+		StoryManager.getSingleton().addStory(story); /// Adiciona a Story ao Banco
 		Console.clear();
 		Console.writeLine("Publicado com Sucesso!!!");
 		Console.readKey();
 		refreshStories();
 	}
+	/// Ponto de Entrada da View
 	public void run() {
 		boolean stop = false;
 		while(!stop) {
-			drawStory();
+			drawStory(); // Desenha a View
 			int code = Console.readInt();
 			switch(code) {
 			case SystemCodes.STORY_ADD:
@@ -55,7 +59,7 @@ public class StoryEngine extends View {
 				stop=true;
 				break;
 			default:
-				invalidOption();
+				invalidOption(); /// Chama a função auxiliar de opção inválida da View
 				break;
 			}
 		}

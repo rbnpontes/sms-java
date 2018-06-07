@@ -5,15 +5,16 @@ import com.sms.common.Console;
 import com.sms.common.Debug;
 import com.sms.entities.User;
 
-public class SystemManager {
+/// Primeiro Sistema de Rotas
+/// Nesta classe fica responsavel todo o sistema principal do programa
+/// Onde o usuário poderá navegar para "Cadastro e Login"
+/// é nesta classe que tambem esta implementado as Views
+public class SystemManager extends View {
 	private Application mApp;
 	public SystemManager(Application app) {
 		this.mApp = app;
 	}
-	private String getLabel(String label) {
-		Console.write(label + ": ");
-		return Console.readLine();
-	}
+	/// Desenha a View Principal
 	private void drawMain() {
 		Console.clear();
 		Console.writeLine("###########################");
@@ -23,14 +24,17 @@ public class SystemManager {
 		Console.writeLine("###########################");
 		Console.write("Opção: ");
 	}
+	/// Desenha a View de Login
 	private void drawSignIn() {
 		Console.clear();
 		Console.writeLine("##### ENTRAR #####");
 		
-		/// Prepare Object and Collect Data
+		/// Aqui vamos preparar a coleta de dados para fazer a tentativa de login
+		/// no sistema
 		User user = new User();
-		user.username = getLabel("Usuário");
-		user.password = getLabel("Senha");
+		user.username = labelText("Usuário");
+		user.password = labelText("Senha");
+		/// Faz a tentativa de Login, caso seja sucesso, instancie a View de Perfil
 		if(RouterManager.tryLogin(user, mApp))
 		{
 			Console.writeLine("Usuário Autenticado com Sucesso");
@@ -43,15 +47,18 @@ public class SystemManager {
 			Console.readKey();			
 		}
 	}
+	/// Desenha a View de Cadastro
 	private void drawSignUp() {
 		Console.clear();
 		Console.writeLine("##### CADASTRAR #####");
 		
+		/// Prepara a Coleta de Dados necessaria para o Cadastro
 		User user = new User();
 		
-		user.name = getLabel("Nome");
-		user.username = getLabel("Usuário");
-		user.password = getLabel("Senha");
+		user.name = labelText("Nome");
+		user.username = labelText("Usuário");
+		user.password = labelText("Senha");
+		/// Faz a tentativa de cadastro, caso ocorra algum erro, um codigo de saída sera gerado
 		int code = RouterManager.tryRegister(user, mApp);
 		switch(code) {
 			case SystemCodes.SIGN_IN_INVALID:
@@ -68,6 +75,7 @@ public class SystemManager {
 				break;
 			case SystemCodes.SIGN_OK:
 			{
+				/// Caso não ocorra nenhumn erro, redirecione o usuário para a View de Perfil
 				Console.writeLine("Cadastro feito com Sucesso");
 				Console.pause();
 				ProfileEngine engine = new ProfileEngine(user);
@@ -76,10 +84,11 @@ public class SystemManager {
 				break;
 		}
 	}
+	/// Ponto de Entra da primeira View
 	public boolean entryPoint() {
 		boolean stop = false;
-		drawMain();
-		int code = Console.readInt();
+		drawMain(); /// Desenhe a Tela Inicial
+		int code = Console.readInt(); /// Ler as Opções
 		Console.clear();
 		switch(code) {
 			case SystemCodes.MAIN_SIGN_IN:
