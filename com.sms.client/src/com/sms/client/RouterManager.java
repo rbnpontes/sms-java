@@ -4,7 +4,9 @@ import com.sms.business.UserManager;
 import com.sms.entities.User;
 
 public class RouterManager {
+	/// Faz a tentativa de Login
 	public static boolean tryLogin(User user, Application app) {
+		/// Validação do Objeto
 		if(user.username.length() == 0)
 			return false;
 		if(user.password.length() == 0)
@@ -16,7 +18,9 @@ public class RouterManager {
 			return false;
 		return true;
 	}
+	/// Faz a tentativa de registro
 	public static int tryRegister(User user,Application app) {
+		/// Validação do Objeto
 		if(user.name.length() == 0 && user.username.length() == 0 && user.password.length() == 0)
 			return SystemCodes.SIGN_IN_INVALID;
 		if(user.password.length() < 6)
