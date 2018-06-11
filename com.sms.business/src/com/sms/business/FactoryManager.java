@@ -5,7 +5,6 @@ import com.sms.entities.SystemErrors;
 public class FactoryManager {
 	public static boolean initBusiness() {
 		try {
-			new IOManager();
 			new ContactManager();
 			new MessageManager();
 			new StoryManager();
