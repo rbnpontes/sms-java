@@ -1,3 +1,5 @@
+-- Felipe Henrique Moura
+
 CREATE TABLE users(
 	id SERIAL primary key,
 	name VARCHAR(255) NOT NULL,
