@@ -1,3 +1,4 @@
+-- Ruben de Pontes Gomes
 CREATE OR REPLACE FUNCTION clearOutdatedStories() RETURNS TRIGGER AS $$
 BEGIN
 	DELETE FROM stories WHERE post_date != CURRENT_DATE;
